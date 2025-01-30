@@ -1,11 +1,20 @@
-# capa de servicio/lógica de negocio
+# Lo que se puede realizar en esta capa es:
+  #Devolver listado de card con nombre alternativo random
+  #Filtrar card segun el nombre del personaje 
+  #Filtrar card segun la casa del personaje 
+  #Añadir card a favoritos, ver los favoritos y eliminar favoritos
+  #
 
 from ..transport.transport import getAllImages as getAllImagesTransport
 from ..persistence import repositories
 from ..utilities.translator import fromRequestIntoCard as fromRequestIntoCardTranslator
+from ..utilities.translator import fromTemplateIntoCard as fromTemplateIntoCardTranslator
 from django.contrib.auth import get_user
 import random
 
+
+#----------------------------- COMPLETADO ------------------------------------
+#INICIO. ---------------------------------------------------------------------
 # función que devuelve un listado de cards. Cada card representa una imagen de la API de HP.
 def getAllImages():
     raw_images=getAllImagesTransport()
@@ -20,13 +29,10 @@ def getAllImages():
         print(f"Personaje: {card.name}, Nombres alternativos: {card.alternate_names}")
         cards.append(card)
     return cards
-    # debe ejecutar los siguientes pasos:
-    # 1) traer un listado de imágenes crudas desde la API (ver transport.py)
-    # 2) convertir cada img. en una card.
-    # 3) añadirlas a un nuevo listado que, finalmente, se retornará con todas las card encontradas.
-    # ATENCIÓN: contemplar que los nombres alternativos, para cada personaje, deben elegirse al azar. Si no existen nombres alternativos, debe mostrar un mensaje adecuado.
-    
     pass
+#FIN. ---------------------------------------------------------------------
+
+
 
 # función que filtra según el nombre del personaje.
 def filterByCharacter(name):
@@ -38,6 +44,9 @@ def filterByCharacter(name):
 
     return filtered_cards
 
+
+#----------------------------- COMPLETADO ------------------------------------
+#INICIO. ---------------------------------------------------------------------
 # función que filtra las cards según su casa.
 def filterByHouse(house_name):
     filtered_cards = [] 
@@ -47,11 +56,15 @@ def filterByHouse(house_name):
             filtered_cards.append(card)
 
     return filtered_cards 
+#FIN. ---------------------------------------------------------------------
+
+
 
 # añadir favoritos (usado desde el template 'home.html')
 def saveFavourite(request):
-    fav = '' # transformamos un request en una Card (ver translator.py)
+    fav = fromTemplateIntoCardTranslator(request) # transformamos un request en una Card (ver translator.py)
     fav.user = get_user(request) # le asignamos el usuario correspondiente.
+    
 
     return repositories.save_favourite(fav) # lo guardamos en la BD.
 

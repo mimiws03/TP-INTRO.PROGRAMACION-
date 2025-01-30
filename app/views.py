@@ -2,6 +2,7 @@
 
 from django.shortcuts import redirect, render
 from .layers.services.services import getAllImages
+from .layers.services.services import filterByHouse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
@@ -32,8 +33,8 @@ def search(request):
 def filter_by_house(request):
     house = request.POST.get('house', '')
 
-    if house != '':
-        images = [] # debe traer un listado filtrado de imágenes, según la casa.
+    if house:
+        images = filterByHouse(house) # debe traer un listado filtrado de imágenes, según la casa.
         favourite_list = []
 
         return render(request, 'home.html', { 'images': images, 'favourite_list': favourite_list })

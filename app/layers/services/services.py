@@ -25,7 +25,7 @@ def getAllImages():
     # 2) convertir cada img. en una card.
     # 3) añadirlas a un nuevo listado que, finalmente, se retornará con todas las card encontradas.
     # ATENCIÓN: contemplar que los nombres alternativos, para cada personaje, deben elegirse al azar. Si no existen nombres alternativos, debe mostrar un mensaje adecuado.
-    return getAllImages
+    
     pass
 
 # función que filtra según el nombre del personaje.
@@ -40,13 +40,13 @@ def filterByCharacter(name):
 
 # función que filtra las cards según su casa.
 def filterByHouse(house_name):
-    filtered_cards = []
+    filtered_cards = [] 
+    for card in getAllImages():  # Obtener todas las imágenes
+        if card.house and card.house.lower() == house_name.lower():  
+            # Si la casa del personaje coincide con la seleccionada, se añade a la lista
+            filtered_cards.append(card)
 
-    for card in getAllImages():
-        # debe verificar si la casa de la card coincide con la recibida por parámetro. Si es así, se añade al listado de filtered_cards.
-        filtered_cards.append(card)
-
-    return filtered_cards
+    return filtered_cards 
 
 # añadir favoritos (usado desde el template 'home.html')
 def saveFavourite(request):
